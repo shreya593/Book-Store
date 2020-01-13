@@ -9,15 +9,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.buyandselling.R;
-
-public class second extends Fragment {
+public class about extends Fragment {
 
 
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return  inflater.inflate(R.layout.third,container,false);
+        return  inflater.inflate(R.layout.about,container,false);
     }
 }

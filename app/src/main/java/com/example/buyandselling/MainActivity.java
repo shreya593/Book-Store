@@ -29,9 +29,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-        if(savedInstanceState==null) {
+       if(savedInstanceState==null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new profile()).commit();
-            navigationView.setCheckedItem(R.id.nav_profile);
+            navigationView.setCheckedItem(R.id.profile);
         }
      }
 
@@ -42,11 +42,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_profile:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new profile()).commit();
                 break;
-            case R.id.second:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new first()).commit();
+            case R.id.sell:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new sell()).commit();
                 break;
-            case R.id.third:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new second()).commit();
+            case R.id.about:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new about()).commit();
                 break;
 
 
