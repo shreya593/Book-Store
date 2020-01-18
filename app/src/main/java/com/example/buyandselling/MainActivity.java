@@ -30,8 +30,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.addDrawerListener(toggle);
         toggle.syncState();
        if(savedInstanceState==null) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new profile()).commit();
-            navigationView.setCheckedItem(R.id.profile);
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Home()).commit();
+            navigationView.setCheckedItem(R.id.home);
         }
      }
 

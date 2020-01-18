@@ -11,7 +11,7 @@ android {
         versionName "1.0"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables.useSupportLibrary="true"
+        vectorDrawables.useSupportLibrary = "true"
     }
     buildTypes {
         release {
@@ -38,7 +38,7 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview-selection:1.1.0-beta01"
     implementation "androidx.cardview:cardview:1.0.0"
     implementation 'androidx.vectordrawable:vectordrawable:1.0.1'
-
+    implementation 'com.firebase:firebase-client-android:2.5.2'
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'

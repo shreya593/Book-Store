@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -34,8 +35,9 @@ public class sell extends Fragment {
 private static final int ImageBack=1;
 
 Button upload;
-ImageView imageView;
+ImageButton imageView;
 EditText name,email,phone,address,bookdescpt;
+public Uri ImageData;
 
 
 
@@ -45,37 +47,9 @@ EditText name,email,phone,address,bookdescpt;
         if(requestCode == ImageBack){
            if(resultCode == RESULT_OK){
 
-               Uri ImageData = data.getData();
+                ImageData = data.getData();
                Picasso.get().load(ImageData).into(imageView);
-               final StorageReference Imagename = Folder.child("image"+ImageData.getLastPathSegment());
-               Imagename.putFile(ImageData).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                   @Override
-                   public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                  //     Toast.makeText(,"upload succesful",Toast.LENGTH_SHORT).show();
-                       Imagename.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                           @Override
-                           public void onSuccess(Uri uri) {
-                            imagestore   = FirebaseDatabase.getInstance().getReference().child("image");
-                               HashMap<String,String> hashMap=new HashMap<>();
-                               hashMap.put("imageurl",String.valueOf(uri));
-                               hashMap.put("name",name.getText().toString());
-                               hashMap.put("email",email.getText().toString());
-                               hashMap.put("phone", phone.getText().toString());
-                               hashMap.put("address",address.getText().toString());
-                               hashMap.put("bookdescpt", bookdescpt.getText().toString());
-                               imagestore.setValue(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                   @Override
-                                   public void onSuccess(Void aVoid) {
-
-                                   }
-                               });
-                           }
-                       });
-
-
-                   }
-               });
 
            }
 
@@ -88,14 +62,14 @@ EditText name,email,phone,address,bookdescpt;
         View view  =inflater.inflate(R.layout.sell,container,false);
 
         upload = (Button) view.findViewById(R.id.upload);
-        imageView=(ImageView) view.findViewById(R.id.imageview);
+        imageView=(ImageButton) view.findViewById(R.id.imageview);
         name=(EditText)view.findViewById(R.id.name);
         email=(EditText)view.findViewById(R.id.email);
         phone=(EditText)view.findViewById(R.id.phone);
         address=(EditText)view.findViewById(R.id.address);
         bookdescpt=(EditText)view.findViewById(R.id.bookdescpt);
         Folder = FirebaseStorage.getInstance().getReference().child("ImageFolder");
-        upload.setOnClickListener(new View.OnClickListener() {
+        imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -106,7 +80,41 @@ EditText name,email,phone,address,bookdescpt;
 
             }
         });
+upload.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+        final StorageReference Imagename = Folder.child("image"+ImageData.getLastPathSegment());
+        Imagename.putFile(ImageData).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
+                //     Toast.makeText(,"upload succesful",Toast.LENGTH_SHORT).show();
+                taskSnapshot.getStorage().getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        imagestore   = FirebaseDatabase.getInstance().getReference("image");
+                        HashMap<String,String> hashMap=new HashMap<>();
+                        hashMap.put("imageurl",String.valueOf(uri));
+                        hashMap.put("name",name.getText().toString());
+                        hashMap.put("email",email.getText().toString());
+                        hashMap.put("phone", phone.getText().toString());
+                        hashMap.put("address",address.getText().toString());
+                        hashMap.put("bookdescpt", bookdescpt.getText().toString());
+                        String uploadId = imagestore.push().getKey();
+                        imagestore.child(uploadId).setValue(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+
+                            }
+                        });
+                    }
+                });
+
+
+            }
+        });
+    }
+});
       return  view;
     }
 
