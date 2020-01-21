@@ -11,11 +11,11 @@ public Student()
 
 
 }
-public Student(String name,String url)
-{if(name.trim().equals(""))
-{name="No Name";}
-    mName=name;
-mImageUrl=url;
+public Student(String mName,String mImageUrl)
+{if(mName.trim().equals(""))
+{mName="No Name";}
+   this. mName=mName;
+this.mImageUrl=mImageUrl;
 
 }
 
@@ -27,11 +27,11 @@ mImageUrl=url;
         return mImageUrl;
     }
 
-    public void setmName(String Name) {
-        mName = Name;
+    public void setmName(String mName) {
+        this.mName = mName;
     }
 
-    public void setmImageUrl(String url) {
-        mImageUrl = url;
+    public void setmImageUrl(String mImageUrl) {
+        this.mImageUrl = mImageUrl;
     }
 }

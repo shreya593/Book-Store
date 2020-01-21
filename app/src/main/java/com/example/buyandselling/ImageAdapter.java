@@ -16,7 +16,6 @@ import java.util.List;
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHolder> {
     public Context mContext;
     public List<Student> mUploads;
-
     public ImageAdapter(Context context, List<Student> uploads) {
         mContext = context;
         mUploads = uploads;
@@ -33,7 +32,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
         holder.textViewName.setText(uploadCurrent.getmName());
         Picasso.get()
                 .load(uploadCurrent.getmImageUrl())
-                .placeholder(R.mipmap.ic_launcher)
+                .placeholder(R.drawable.preview)
                 .fit()
                 .centerCrop()
                 .into(holder.imageView);

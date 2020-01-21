@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
        if(savedInstanceState==null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new Home()).commit();
-            navigationView.setCheckedItem(R.id.home);
+           navigationView.setCheckedItem(R.id.home);
         }
      }
 
@@ -47,6 +47,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.about:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new about()).commit();
+                break;
+            case R.id.Homepage:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new Home()).commit();
                 break;
 
 

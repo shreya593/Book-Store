@@ -48,8 +48,12 @@ public Uri ImageData;
            if(resultCode == RESULT_OK){
 
                 ImageData = data.getData();
-               Picasso.get().load(ImageData).into(imageView);
-
+             //  Picasso.get().load(ImageData).into(imageView);
+               Picasso.get()
+                       .load(ImageData)
+                       .fit()
+                       .centerCrop()
+                       .into(imageView);
 
            }
 
@@ -93,15 +97,16 @@ upload.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onSuccess(Uri uri) {
                         imagestore   = FirebaseDatabase.getInstance().getReference("image");
-                        HashMap<String,String> hashMap=new HashMap<>();
-                        hashMap.put("imageurl",String.valueOf(uri));
-                        hashMap.put("name",name.getText().toString());
-                        hashMap.put("email",email.getText().toString());
-                        hashMap.put("phone", phone.getText().toString());
-                        hashMap.put("address",address.getText().toString());
-                        hashMap.put("bookdescpt", bookdescpt.getText().toString());
+                        //HashMap<String,String> hashMap=new HashMap<>();
+                        Student student=new Student(name.getText().toString().trim(),uri.toString());
+                     //   hashMap.put("url",String.valueOf(uri));
+                        //hashMap.put("name",name.getText().toString());
+                    //    hashMap.put("email",email.getText().toString());
+                      //  hashMap.put("phone", phone.getText().toString());
+                       // hashMap.put("address",address.getText().toString());
+                        //hashMap.put("bookdescpt", bookdescpt.getText().toString());
                         String uploadId = imagestore.push().getKey();
-                        imagestore.child(uploadId).setValue(hashMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        imagestore.child(uploadId).setValue(student).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
 
