@@ -4,9 +4,13 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,10 +32,12 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
+import static com.example.buyandselling.R.menu.top_menu;
+
 public class Home extends Fragment {
-    private RecyclerView recyclerView;
-    private List<Student> mUploads;
-    private ImageAdapter mAdapter;
+    public RecyclerView recyclerView;
+    public List<Student> mUploads;
+    public ImageAdapter mAdapter;
     private DatabaseReference databaseReference;
     Student student;
 
@@ -62,6 +68,7 @@ public class Home extends Fragment {
                 Toast.makeText(getActivity(), databaseError.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+
   return view;
 
 
@@ -88,4 +95,29 @@ public class Home extends Fragment {
 
         // ...
     }*/
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(top_menu,menu);
+
+        MenuItem searchItem = menu.findItem(R.id.searchbook);
+
+        SearchView search = (SearchView) searchItem.getActionView();
+        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                mAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+
+
+
+    }
 }

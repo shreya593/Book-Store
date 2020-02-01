@@ -6,7 +6,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.SearchView;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -14,12 +17,15 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.zip.Inflater;
 
 import static com.example.buyandselling.R.menu.top_menu;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
    private DrawerLayout drawer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,12 +49,33 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
      }
 
-    @Override
+  /* @Override
     public boolean onCreateOptionsMenu(Menu menu) {
        // return super.onCreateOptionsMenu(menu);
-        getMenuInflater().inflate(top_menu,menu);
+       MenuInflater inflater = getMenuInflater();
+       inflater.inflate(top_menu,menu);
+       MenuItem searchItem = menu.findItem(R.id.searchbook);
+
+        SearchView search = (SearchView) searchItem.getActionView();
+        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                mUploads=new ArrayList<>();
+                mAdapter=new ImageAdapter(getApplicationContext(),mUploads);
+                mAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
         return true;
-    }
+    }*/
+
+
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId())

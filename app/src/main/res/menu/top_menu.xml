@@ -7,8 +7,9 @@
     <item android:title=""
         android:id="@+id/searchbook"
         android:icon="@drawable/ic_searchicon"
-        app:showAsAction="always">
+        app:showAsAction="ifRoom|collapseActionView"
+        app:actionViewClass="android.widget.SearchView"/>
 
 
-    </item>
+
 </menu>

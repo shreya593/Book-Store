@@ -57,6 +57,8 @@ public Uri ImageData;
                        .load(ImageData)
                        .fit()
                        .into(imageView);
+               presshere.setText("");
+
 
            }
 
