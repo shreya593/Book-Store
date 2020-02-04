@@ -21,10 +21,12 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
     public Context mContext;
     public List<Student> mUploads;
     public List<Student> mUploadscopy;
+    public  List<Student>mUploadscity;
     public ImageAdapter(Context context, List<Student> uploads) {
         mContext = context;
         mUploads = uploads;
        mUploadscopy = new ArrayList<>(mUploads);
+        mUploadscity = new ArrayList<>(mUploads);
     }
 
     @Override
@@ -75,7 +77,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
         }
     }
 
-   @Override
+  @Override
     public Filter getFilter() {
         return exampleFilter;
     }
@@ -105,4 +107,35 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
          notifyDataSetChanged();
         }
     };
+
+    public Filter getFiltercity() {
+        return exampleFiltercity;
+    }
+    private  Filter exampleFiltercity = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<Student> filteredList = new ArrayList<>();
+            if(constraint ==null || constraint.length()== 0){
+                filteredList.addAll(mUploadscity);
+            } else{
+                String filterPattern = constraint.toString().toLowerCase().trim();
+                for (Student item : mUploadscity){
+                    if(item.getmSelleraddress().toLowerCase().contains(filterPattern)){
+                        filteredList.add(item);
+                    }
+                }
+            }
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+            return  results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            mUploads.clear();
+            mUploads.addAll((List)results.values);
+            notifyDataSetChanged();
+        }
+    };
+
 }

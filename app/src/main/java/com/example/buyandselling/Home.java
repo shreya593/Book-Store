@@ -40,15 +40,19 @@ public class Home extends Fragment {
     public ImageAdapter mAdapter;
     private DatabaseReference databaseReference;
     Student student;
+   androidx.appcompat.widget.SearchView searchView;
 
 
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.home, container, false);
+        setHasOptionsMenu(true);
         recyclerView=view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));//
         mUploads=new ArrayList<>();
+        searchView=view.findViewById(R.id.searchme);
+        searchView.setQueryHint("Search Your City");
         databaseReference= FirebaseDatabase.getInstance().getReference("image");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -73,29 +77,6 @@ public class Home extends Fragment {
 
 
     }
-
-   /* @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        recyclerView = view.findViewById(R.id.recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mUploads = new ArrayList<>();
-
-        mAdapter=new ImageAdapter(getActivity(),mUploads);
-        recyclerView.setAdapter(mAdapter);
-
-    }
-    public void onResponse(String response) {
-
-        // Instead of setting adapter here...
-        // TipAdapter tipAdapter = new TipAdapter(getActivity(), tipList);
-        // recyclerView.setAdapter(tipAdapter);
-
-        // Just notify the adapter that tipList has changed.
-        recyclerView.getAdapter().notifyDataSetChanged();
-
-        // ...
-    }*/
-
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
@@ -117,7 +98,20 @@ public class Home extends Fragment {
             }
         });
 
-
-
+searchView.setOnQueryTextListener(new androidx.appcompat.widget.SearchView.OnQueryTextListener() {
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
     }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+
+        mAdapter.getFiltercity().filter(newText);
+        return false;
+    }
+});
+    }
+
+
 }

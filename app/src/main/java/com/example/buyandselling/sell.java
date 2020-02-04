@@ -1,9 +1,10 @@
 package com.example.buyandselling;
 
 import android.content.Intent;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
+
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +13,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,8 +29,6 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
-import java.util.HashMap;
-
 import static android.app.Activity.RESULT_OK;
 
 public class sell extends Fragment {
@@ -42,7 +41,7 @@ ImageButton imageView;
 EditText name,email,phone,address,bookdescpt,bookname,price;
 TextView presshere;
 public Uri ImageData;
-
+ProgressBar mProgressBar;
 
 
     @Override
@@ -80,6 +79,7 @@ public Uri ImageData;
         bookdescpt=(EditText)view.findViewById(R.id.bookdescpt);
         bookname = (EditText)view.findViewById(R.id.bookname);
         price = (EditText)view.findViewById(R.id.price);
+        mProgressBar=view.findViewById(R.id.progressBar);
         Animation animation= AnimationUtils.loadAnimation(getActivity(),R.anim.anim1);
         presshere.startAnimation(animation);
         Folder = FirebaseStorage.getInstance().getReference().child("ImageFolder");
@@ -97,6 +97,14 @@ public Uri ImageData;
 upload.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mProgressBar.setVisibility(View.VISIBLE);
+                mProgressBar.setProgress(0);
+            }
+        },0);
         final StorageReference Imagename = Folder.child("image"+ImageData.getLastPathSegment());
         Imagename.putFile(ImageData).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
@@ -115,10 +123,14 @@ upload.setOnClickListener(new View.OnClickListener() {
                       //  hashMap.put("phone", phone.getText().toString());
                        // hashMap.put("address",address.getText().toString());
                         //hashMap.put("bookdescpt", bookdescpt.getText().toString());
+
+
                         String uploadId = imagestore.push().getKey();
-                        imagestore.child(uploadId).setValue(student).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        imagestore.child(uploadId).setValue(student).addOnSuccessListener(
+                                new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
+                                mProgressBar.setVisibility(View.INVISIBLE);
                                 Toast.makeText(getContext(),"Uploaded",Toast.LENGTH_SHORT).show();
 
                             }
